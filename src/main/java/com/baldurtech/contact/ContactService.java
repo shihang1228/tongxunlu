@@ -26,7 +26,7 @@ public class ContactService {
     }
     
     public Contact update(Contact contact) {
-        if(null != contact.getName() && contact.getName().trim().length() > 0) {
+        if(null != contact.getName() && contact.getName().trim().length() > 0 && null != contact.getMobile()) {
             return contactRepository.update(contact);
         } else {
             return null;
