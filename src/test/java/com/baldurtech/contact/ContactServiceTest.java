@@ -5,10 +5,11 @@ import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.any;
-
+import static org.mockito.Mockito.times;
 
 import org.junit.Test;
 import org.junit.Before;
+import static org.junit.Assert.assertNull;
 
 public class ContactServiceTest {
     private Long CONTACT_ID = 1L;
@@ -22,6 +23,17 @@ public class ContactServiceTest {
     
     @Before
     public void setup() {
+        contact = new Contact();
+        contact.setName("ShiHang");
+        contact.setMobile("15235432994");
+        contact.setEmail("a@qq.com");
+        contact.setVpmn("652994");
+        contact.setHomeAddress("TaiYuan");
+        contact.setOfficeAddress("BeiZhang");
+        contact.setMemo("memo");
+        contact.setJob("HR");
+        contact.setJobLevel(4L);
+        
         initMocks();
     }
     
@@ -45,6 +57,13 @@ public class ContactServiceTest {
     public void 在ContactService中的save方法中调用ContactRepository中的save方法() {
         contactService.save(contact);
         verify(contactRepository).save(any(Contact.class));
+    }
+    
+    @Test
+    public void 当contact中的name为null时不应该调用ContactRepository的update方法() {
+        contact.setName(null);
+        assertNull(contactService.update(contact));
+        verify(contactRepository, times(0)).update(contact);
     }
     
     @Test
