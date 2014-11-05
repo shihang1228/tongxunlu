@@ -139,8 +139,9 @@ public class ContactControllerUnitTest {
     
     @Test
     public void 在contactController中的update方法中contact不为空时且ContactService的update返回值不为null将会调用ContactService中的update方法() {
-        contactController.update(contact, model);
-        verify(contactService).update(any(Contact.class));
+        when(contactService.update(contact)).thenReturn(new Contact());
+        assertEquals("redirect:show", contactController.update(contact, model));
+        verify(contactService, times(2)).update(any(Contact.class));
     }
     
     @Test
