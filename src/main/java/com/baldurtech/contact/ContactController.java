@@ -83,9 +83,12 @@ public class ContactController {
     public String edit(@RequestParam("id") String id, Model model) {
         if(id == null || id.trim().length() == 0) {
             return "redirect:list";
-        } else {
+        }
+        if(null != contactService.show(Long.valueOf(id))) {
             model.addAttribute("contact", contactService.show(Long.valueOf(id)));
             return "contact/update";
+        } else {
+            return "redirect:list";
         }
     }
     
