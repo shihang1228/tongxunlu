@@ -73,6 +73,12 @@ public class ContactControllerUnitTest {
     }
     
     @Test
+    public void 在show方法中id合法但调用ContactService的show方法返回null时应该重定向到list页面() {
+        when(contactService.show(CONTACT_ID)).thenReturn(null);
+        assertEquals("redirect:list", contactController.show(String.valueOf(CONTACT_ID), model));
+    }
+    
+    @Test
     public void 在show方法中id存在且为Long型时应该调用contactService的show方法() {
         when(contactService.show(CONTACT_ID)).thenReturn(new Contact());
         assertEquals("contact/show", contactController.show(String.valueOf(CONTACT_ID), model));
