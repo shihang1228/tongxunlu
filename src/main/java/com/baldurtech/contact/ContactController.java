@@ -96,10 +96,13 @@ public class ContactController {
     public String update(@ModelAttribute("contact") Contact contact, Model model) { 
         if(contact == null) {
             return "redirect:list";
-        } else {
+        }
+        if(null != contactService.update(contact)) {
             contactService.update(contact);
             model.addAttribute("id", contact.getId());
             return "redirect:show";
+        } else {
+            return "redirect:list";
         }
     }
     

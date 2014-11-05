@@ -131,7 +131,14 @@ public class ContactControllerUnitTest {
     }
 
     @Test
-    public void 在contactController中的update方法中contact不为空时将会调用ContactService中的update方法() {
+    public void 在update方法中当contact合法且ContactService的update方法返回null时应该重定向到list页面() {
+        when(contactService.update(contact)).thenReturn(null);
+        assertEquals("redirect:list", contactController.update(contact, model));
+        verify(contactService).update(any(Contact.class));
+    }
+    
+    @Test
+    public void 在contactController中的update方法中contact不为空时且ContactService的update返回值不为null将会调用ContactService中的update方法() {
         contactController.update(contact, model);
         verify(contactService).update(any(Contact.class));
     }
