@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.ArrayList;
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
@@ -37,13 +39,17 @@ public class ContactController {
     
     @RequestMapping(value = "show")
     public String show(@RequestParam(value = "id", required = true) String id, Model model) {
+
         if(id == null || id.trim().length() == 0) {
             return "redirect:list";
-        } else {        
-            model.addAttribute("contact", contactService.show(Long.valueOf(id)));
-            return "contact/show";
         }
-    }
+        if(null != contactService.show(Long.valueOf(id))){        
+                model.addAttribute("contact", contactService.show(Long.valueOf(id)));
+                return "contact/show";
+        } else {
+            return "redirect:list";
+        }
+    }   
     
     @RequestMapping(value = "create")
     public String create(Model model, Principal principal) {

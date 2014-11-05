@@ -6,6 +6,7 @@ import org.mockito.MockitoAnnotations;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.times;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -20,6 +21,7 @@ import com.baldurtech.account.*;
 
 
 public class ContactControllerUnitTest {
+    private String INVALID_CONTACT_ID = "adb";
     private Long CONTACT_ID = 1L;
     private String BLANK_ID = "    ";
     private Contact contact = new Contact();
@@ -71,9 +73,10 @@ public class ContactControllerUnitTest {
     }
     
     @Test
-    public void 在contactController中的show方法中当id合法时将会调用ContactService中的show方法并验证返回值() {
+    public void 在show方法中id存在且为Long型时应该调用contactService的show方法() {
+        when(contactService.show(CONTACT_ID)).thenReturn(new Contact());
         assertEquals("contact/show", contactController.show(String.valueOf(CONTACT_ID), model));
-        verify(contactService).show(CONTACT_ID);
+        verify(contactService, times(2)).show(CONTACT_ID);
     }
     
     @Test
