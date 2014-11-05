@@ -113,9 +113,16 @@ public class ContactControllerUnitTest {
     }
     
     @Test
-    public void 在edit方法中当id合法但调用ContactService的show方法返回null时应该返回到list页面() {
+    public void 在edit方法中当id合法但ContactService的show方法返回null时应该返回到list页面() {
         when(contactService.show(CONTACT_ID)).thenReturn(null);
         assertEquals("redirect:list", contactController.edit(String.valueOf(CONTACT_ID), model));
+    }
+    
+    @Test
+    public void 在edit方法中当id合法且ContactService的show方法不返回null时应该返回update页面() {
+        when(contactService.show(CONTACT_ID)).thenReturn(new Contact());
+        assertEquals("contact/update", contactController.edit(String.valueOf(CONTACT_ID), model));
+        verify(contactService, times(2)).show(CONTACT_ID);
     }
     
     @Test
