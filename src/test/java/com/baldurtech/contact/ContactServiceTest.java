@@ -67,6 +67,13 @@ public class ContactServiceTest {
     }
     
     @Test
+    public void 当contact中的name为空白时不应该调用ContactRepository的update方法() {
+        contact.setName("       ");
+        assertNull(contactService.update(contact));
+        verify(contactRepository, times(0)).update(contact);
+    }
+    
+    @Test
     public void 在ContactService中的update方法中调用ContactRepository中的update方法() {
         contactService.update(contact);
         verify(contactRepository).update(any(Contact.class));

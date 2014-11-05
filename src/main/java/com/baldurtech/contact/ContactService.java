@@ -26,11 +26,12 @@ public class ContactService {
     }
     
     public Contact update(Contact contact) {
-        if(null != contact.getName()) {
+        if(null != contact.getName() && contact.getName().trim().length() > 0) {
             return contactRepository.update(contact);
         } else {
             return null;
         }
+        
     }
     
     public void delete(Long id) {
